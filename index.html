@@ -1,0 +1,144 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameBoy</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>Animate Canvas</h1>
+    <canvas id="canvas"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      canvas.width = 800;
+      canvas.height = 800;
+      ctx.beginPath();
+      for (let i = 0; i < 16; i++) {
+        var pos = i * 50;
+        ctx.font = "15px monospace";
+
+        ctx.moveTo(pos, 0);
+        ctx.lineTo(pos, 800);
+        ctx.fillText(pos, pos, 12);
+
+        ctx.moveTo(0, pos);
+        ctx.lineTo(800, pos);
+        ctx.fillText(pos, 0, pos);
+      }
+
+      ctx.strokeStyle = "rgba(0,0,0,0.1)";
+      ctx.stroke();
+
+      // draw the gameboy
+      ctx.beginPath();
+      ctx.moveTo(200, 100);
+      ctx.lineTo(600, 100);
+      ctx.lineTo(600, 700);
+      ctx.arc(550, 700, 50, 0, 0.5 * Math.PI);
+      ctx.moveTo(550, 750);
+      ctx.lineTo(200, 750);
+      ctx.lineTo(200, 100);
+      ctx.fillStyle = "rgba(0,51,102,1)";
+      ctx.fill();
+
+      // inner screen
+      ctx.beginPath();
+      ctx.moveTo(250, 150);
+      ctx.lineTo(550, 150);
+      ctx.lineTo(550, 350);
+
+      ctx.arc(500, 350, 50, 0, 0.5 * Math.PI);
+      ctx.moveTo(500, 400);
+      ctx.lineTo(250, 400);
+      ctx.lineTo(250, 150);
+      ctx.lineTo(250, 135);
+
+      ctx.fillStyle = "rgba(98,70,120,1)";
+      ctx.fill();
+      ctx.lineWidth = 30;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      // fill text with gameboy
+      ctx.fillStyle = "white";
+      ctx.font = "oblique 20px monospace";
+      ctx.fillText("GAME BOY", 255, 405);
+
+      // buttons & text ,round buttons
+      ctx.beginPath();
+
+      ctx.arc(475, 550, 25, 0, 2 * Math.PI);
+      ctx.arc(540, 510, 25, 0, 2 * Math.PI);
+      ctx.fillStyle = "gold";
+      ctx.fill();
+      ctx.font = "18px monospace";
+      ctx.fillStyle = "white";
+      ctx.fillText("B", 472, 598);
+      ctx.fillText("A", 538, 558);
+
+      // cross button and center circle
+      ctx.fillStyle = "gold";
+      ctx.fillRect(280, 470, 40, 110);
+      ctx.fillRect(245, 505, 110, 40);
+      ctx.beginPath();
+      ctx.arc(300, 525, 20, 0, 2 * Math.PI);
+      ctx.fillStyle = "#faa41a";
+      ctx.fill();
+      // start / select buttons at the bottom
+      // pure rectangle will change in bonus session 1
+
+      ctx.fillStyle = "gold";
+      ctx.fillRect(315, 675, 65, 20);
+      ctx.fillRect(420, 675, 65, 20);
+      ctx.fillStyle = "white";
+      ctx.fillText("Select", 315, 720);
+      ctx.fillText("Start", 425, 720);
+
+      // rouned rectangle with bezierCurveTo (bonus 1)
+      // left
+      ctx.beginPath();
+      ctx.moveTo(315, 675);
+      ctx.bezierCurveTo(300, 675, 300, 695, 315, 695);
+      ctx.lineTo(380, 695);
+      ctx.bezierCurveTo(395, 695, 395, 675, 380, 675);
+      ctx.closePath();
+      ctx.fillStyle = "gold";
+      ctx.fill();
+      //right
+      ctx.beginPath();
+      ctx.moveTo(420, 675);
+      ctx.bezierCurveTo(405, 675, 405, 695, 420, 695);
+      ctx.lineTo(485, 695);
+      ctx.bezierCurveTo(500, 695, 500, 675, 485, 675);
+      ctx.closePath();
+      ctx.fillStyle = "gold";
+      ctx.fill();
+
+      //simple animation
+      var s = 0;
+      function gameStart() {
+        s++;
+        var dotX = s % 5;
+        console.log(dotX);
+        ctx.beginPath();
+        if (dotX >= 1) {
+          console.log("secod", dotX);
+          ctx.clearRect(280, 180, 240, 195);
+          ctx.fillStyle = "rgba(98,70,120,1)";
+          ctx.fillRect(280, 180, 240, 195);
+        }
+        ctx.fillStyle = "lightgreen";
+        //ctx.fillRect(dotX * 10 + 280, 290, 50, 50);
+        ctx.font = "33px monospace";
+        ctx.fillText("YOU WIN", dotX * 10 + 310, 250 + dotX * 15);
+        ctx.fillStyle = "tomato";
+        ctx.fillText("_ ", dotX * 35 + 310, 250 + dotX * 15);
+
+        ctx.fill();
+      }
+
+      setInterval(gameStart, 180);
+    </script>
+  </body>
+</html>
